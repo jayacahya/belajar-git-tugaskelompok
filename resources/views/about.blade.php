@@ -1,1 +1,1 @@
-<h1>ini adalah halaman about</h1>
+<h1>ini adalah about</h1>
