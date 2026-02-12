@@ -591,7 +591,7 @@
             <!-- Contact Form dengan Laravel -->
             <section class="contact-form">
                 <h2>Kirim Pesan</h2>
-                <form action="{{ route('contact.send') }}" method="POST" id="contactForm">
+                <form action="#" method="POST" id="contactForm">
                     @csrf
                     <div class="form-group">
                         <label for="nama">Nama Lengkap</label>
