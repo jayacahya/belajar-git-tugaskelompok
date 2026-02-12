@@ -15,11 +15,6 @@ Route::get('/about', function () {
 
 })->name('about'); // Memberikan nama 'about' pada rute
 
-// Rute untuk halaman contact
-Route::get('/contact', function () {
-    return view('contact');
-})->name('contact'); // Memberikan nama 'contact' pada rute
-
 
 Route::get('/contact', function () {
     return view('contact');
