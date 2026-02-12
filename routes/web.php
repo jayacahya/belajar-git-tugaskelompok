@@ -21,4 +21,8 @@ Route::get('/contact', function () {
 })->name('contact'); // Memberikan nama 'contact' pada rute
 
 
+Route::get('/contact', function () {
+    return view('contact');
+});
+
 
