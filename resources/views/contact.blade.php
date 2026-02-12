@@ -549,12 +549,7 @@
     <nav class="navbar">
         <div class="nav-left">
             <a href="{{ route('home') ?? '/home' }}" class="nav-link home-link {{ request()->routeIs('home') ? 'active' : '' }}" title="Kembali ke Beranda">
-                <span>🏠</span> Home
-            </a>
-        </div>
-        <div class="nav-right">
-            <a href="{{ route('about') }}" class="nav-link about-link {{ request()->routeIs('about') ? 'active' : '' }}" title="Tentang Kami">
-                <span>ℹ️</span> About
+                <span>🏠</span> Back To Home
             </a>
         </div>
     </nav>
