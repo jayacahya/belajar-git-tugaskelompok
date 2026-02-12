@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 </head>
 <body>
-    <h1>ini kontak jut</h1>
+    <h1>Home</h1>
     
     <nav>
         <ul>
