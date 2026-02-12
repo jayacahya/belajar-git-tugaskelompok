@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Halaman Kontak</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <style>
         * {
             margin: 0;
@@ -19,6 +20,85 @@
             min-height: 100vh;
         }
 
+        /* Navigation Styles */
+        .navbar {
+            max-width: 1200px;
+            margin: 0 auto 30px;
+            background: white;
+            padding: 15px 30px;
+            border-radius: 50px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            animation: slideDown 0.5s ease-out;
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.95);
+        }
+
+        .nav-left, .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: #333;
+            font-weight: 600;
+            padding: 10px 20px;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1.1em;
+        }
+
+        .home-link {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            box-shadow: 0 5px 15px rgba(102,126,234,0.3);
+        }
+
+        .home-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102,126,234,0.4);
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+        }
+
+        .about-link {
+            background: #f8f9fa;
+            border: 2px solid #e0e0e0;
+        }
+
+        .about-link:hover {
+            background: #764ba2;
+            color: white;
+            border-color: #764ba2;
+            transform: translateY(-2px);
+        }
+
+        /* Active link state */
+        .nav-link.active {
+            background: #764ba2;
+            color: white;
+            border-color: #764ba2;
+            position: relative;
+        }
+
+        .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 5px;
+            height: 5px;
+            background: white;
+            border-radius: 50%;
+        }
+
         .container {
             max-width: 1200px;
             margin: 0 auto;
@@ -26,6 +106,7 @@
             padding: 40px;
             border-radius: 20px;
             box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            animation: fadeIn 0.8s ease-out;
         }
 
         h1 {
@@ -73,6 +154,26 @@
             margin-bottom: 30px;
             font-size: 1.1em;
             text-align: center;
+        }
+
+        /* Alert Messages */
+        .alert {
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .alert-error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
         }
 
         /* Grid Layout */
@@ -131,6 +232,18 @@
             border-color: #764ba2;
         }
 
+        .form-group input.error,
+        .form-group textarea.error {
+            border-color: #dc3545;
+        }
+
+        .error-message {
+            color: #dc3545;
+            font-size: 0.85em;
+            margin-top: 5px;
+            display: block;
+        }
+
         .btn {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
@@ -154,6 +267,11 @@
 
         .btn:active {
             transform: translateY(0);
+        }
+
+        .btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
         }
 
         /* Contact Info Styles */
@@ -255,72 +373,29 @@
             text-decoration: none;
             border-radius: 50%;
             transition: all 0.3s ease;
-            font-size: 0;
-            position: relative;
+            font-size: 1.2em;
+            box-shadow: 0 5px 15px rgba(102,126,234,0.3);
         }
-
-        .social-icon::before {
-            font-size: 20px;
-        }
-
-        .social-icon[href*="facebook"]::before { content: '📘'; }
-        .social-icon[href*="instagram"]::before { content: '📷'; }
-        .social-icon[href*="twitter"]::before { content: '🐦'; }
-        .social-icon[href*="linkedin"]::before { content: '🔗'; }
-        .social-icon:not([href*=".com"])::before { content: '🌐'; }
 
         .social-icon:hover {
             transform: translateY(-5px) rotate(360deg);
-            box-shadow: 0 10px 20px rgba(102,126,234,0.4);
+            box-shadow: 0 10px 25px rgba(102,126,234,0.5);
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
         }
 
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .container {
-                padding: 20px;
-            }
-
-            h1 {
-                font-size: 2em;
-            }
-
-            .contact-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .info-item:hover {
-                transform: none;
-            }
-
-            .social-icon {
-                width: 45px;
-                height: 45px;
-            }
+        /* Loading Spinner */
+        .spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
         }
 
-        @media (max-width: 480px) {
-            body {
-                padding: 10px;
-            }
-
-            h1 {
-                font-size: 1.8em;
-            }
-
-            h2 {
-                font-size: 1.5em;
-            }
-
-            .container {
-                padding: 15px;
-            }
-
-            .contact-form,
-            .contact-info,
-            .map,
-            .social-media {
-                padding: 20px;
-            }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
 
         /* Animations */
@@ -332,6 +407,28 @@
             to {
                 opacity: 1;
                 transform: translateY(0);
+            }
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
             }
         }
 
@@ -359,40 +456,179 @@
         ::-webkit-scrollbar-thumb:hover {
             background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
         }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 12px 20px;
+                border-radius: 30px;
+            }
+
+            .nav-link {
+                padding: 8px 16px;
+                font-size: 1em;
+            }
+
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .info-item:hover {
+                transform: none;
+            }
+
+            .social-icon {
+                width: 45px;
+                height: 45px;
+                font-size: 1.1em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+
+            .navbar {
+                flex-direction: column;
+                gap: 10px;
+                border-radius: 20px;
+            }
+
+            .nav-left, .nav-right {
+                width: 100%;
+            }
+
+            .nav-link {
+                flex: 1;
+                text-align: center;
+                justify-content: center;
+            }
+
+            h1 {
+                font-size: 1.8em;
+            }
+
+            h2 {
+                font-size: 1.5em;
+            }
+
+            .container {
+                padding: 15px;
+            }
+
+            .contact-form,
+            .contact-info,
+            .map,
+            .social-media {
+                padding: 20px;
+            }
+
+            .social-icons {
+                gap: 15px;
+            }
+
+            .social-icon {
+                width: 40px;
+                height: 40px;
+                font-size: 1em;
+            }
+        }
     </style>
 </head>
 <body>
+    <!-- Navigation Bar dengan Laravel route -->
+    <nav class="navbar">
+        <div class="nav-left">
+            <a href="{{ route('home') ?? '/home' }}" class="nav-link home-link {{ request()->routeIs('home') ? 'active' : '' }}" title="Kembali ke Beranda">
+                <span>🏠</span> Home
+            </a>
+        </div>
+        <div class="nav-right">
+            <a href="{{ route('about') }}" class="nav-link about-link {{ request()->routeIs('about') ? 'active' : '' }}" title="Tentang Kami">
+                <span>ℹ️</span> About
+            </a>
+        </div>
+    </nav>
+
     <div class="container">
         <h1>Ini Contact</h1>
         
         <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. In ratione ipsa perspiciatis enim, quibusdam est magnam sit. Dolore, quis quasi aut aspernatur architecto voluptatum ea, hic ipsam quod, dolor suscipit?</p>
 
+        <!-- Alert Message -->
+        @if(session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        @if(session('error'))
+            <div class="alert alert-error">
+                {{ session('error') }}
+            </div>
+        @endif
+
+        @if($errors->any())
+            <div class="alert alert-error">
+                <ul style="margin-left: 20px;">
+                    @foreach($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
         <div class="contact-grid">
-            <!-- Contact Form -->
+            <!-- Contact Form dengan Laravel -->
             <section class="contact-form">
                 <h2>Kirim Pesan</h2>
-                <form action="#" method="POST">
+                <form action="#" method="POST" id="contactForm">
+                    @csrf
                     <div class="form-group">
                         <label for="nama">Nama Lengkap</label>
-                        <input type="text" id="nama" name="nama" placeholder="Masukkan nama lengkap" required>
+                        <input type="text" id="nama" name="nama" placeholder="Masukkan nama lengkap" value="{{ old('nama') }}" required>
+                        @error('nama')
+                            <span class="error-message">{{ $message }}</span>
+                        @enderror
                     </div>
                     
                     <div class="form-group">
                         <label for="email">Email</label>
-                        <input type="email" id="email" name="email" placeholder="contoh@email.com" required>
+                        <input type="email" id="email" name="email" placeholder="contoh@email.com" value="{{ old('email') }}" required>
+                        @error('email')
+                            <span class="error-message">{{ $message }}</span>
+                        @enderror
                     </div>
                     
                     <div class="form-group">
                         <label for="subjek">Subjek</label>
-                        <input type="text" id="subjek" name="subjek" placeholder="Subjek pesan">
+                        <input type="text" id="subjek" name="subjek" placeholder="Subjek pesan" value="{{ old('subjek') }}">
+                        @error('subjek')
+                            <span class="error-message">{{ $message }}</span>
+                        @enderror
                     </div>
                     
                     <div class="form-group">
                         <label for="pesan">Pesan</label>
-                        <textarea id="pesan" name="pesan" rows="5" placeholder="Tulis pesan Anda di sini..." required></textarea>
+                        <textarea id="pesan" name="pesan" rows="5" placeholder="Tulis pesan Anda di sini..." required>{{ old('pesan') }}</textarea>
+                        @error('pesan')
+                            <span class="error-message">{{ $message }}</span>
+                        @enderror
                     </div>
                     
-                    <button type="submit" class="btn">Kirim Pesan</button>
+                    <button type="submit" class="btn" id="submitBtn">
+                        <span id="btnText">Kirim Pesan</span>
+                        <span id="btnSpinner" style="display: none;" class="spinner"></span>
+                    </button>
                 </form>
             </section>
 
@@ -459,5 +695,55 @@
             <p style="margin-top: 20px; color: #666; text-align: center;">Ikuti media sosial kami untuk informasi terbaru</p>
         </section>
     </div>
+
+    <script>
+        // Loading spinner on form submit
+        document.getElementById('contactForm')?.addEventListener('submit', function(e) {
+            const btn = document.getElementById('submitBtn');
+            const btnText = document.getElementById('btnText');
+            const btnSpinner = document.getElementById('btnSpinner');
+            
+            btn.disabled = true;
+            btnText.style.opacity = '0.7';
+            btnSpinner.style.display = 'inline-block';
+        });
+
+        // Auto hide alerts after 5 seconds
+        document.addEventListener('DOMContentLoaded', function() {
+            const alerts = document.querySelectorAll('.alert');
+            alerts.forEach(alert => {
+                setTimeout(() => {
+                    alert.style.transition = 'opacity 0.5s ease';
+                    alert.style.opacity = '0';
+                    setTimeout(() => alert.remove(), 500);
+                }, 5000);
+            });
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Set active nav based on current URL
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentPath = window.location.pathname;
+            const navLinks = document.querySelectorAll('.nav-link');
+            
+            navLinks.forEach(link => {
+                if (link.getAttribute('href') === currentPath) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
 </body>
 </html>
