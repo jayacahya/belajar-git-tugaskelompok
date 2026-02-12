@@ -12,12 +12,8 @@ Route::get('/home', function () {
 
 Route::get('/about', function () {
     return view('about');
-
 })->name('about'); // Memberikan nama 'about' pada rute
-
 
 Route::get('/contact', function () {
     return view('contact');
-});
-
-
+})->name('contact');
