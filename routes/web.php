@@ -19,3 +19,6 @@ Route::get('/contact', function () {
     return view('contact');
 })->name('contact');
 
+Route::get('/portfolio', function () {
+    return view('portfolio');
+})->name('portfolio');
