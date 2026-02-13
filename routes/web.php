@@ -27,3 +27,7 @@ Route::get('/portfolio', function () {
     return view('portfolio');
 })->name('portfolio');
 
+
+Route::get('/team', function () {
+    return view('team');
+})->name('team');
