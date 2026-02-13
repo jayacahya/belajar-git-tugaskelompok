@@ -19,6 +19,11 @@ Route::get('/contact', function () {
     return view('contact');
 })->name('contact');
 
+Route::get('/service', function () {
+    return view('service');
+})->name('service');
+
 Route::get('/portfolio', function () {
     return view('portfolio');
 })->name('portfolio');
+
