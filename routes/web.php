@@ -22,3 +22,8 @@ Route::get('/contact', function () {
 Route::get('/service', function () {
     return view('service');
 })->name('service');
+
+Route::get('/portfolio', function () {
+    return view('portfolio');
+})->name('portfolio');
+
