@@ -848,7 +848,7 @@
         </div>
 
         <!-- Navigation -->
-        <div class="nav-wrapper">
+        <!-- <div class="nav-wrapper">
             <nav>
                 <ul>
                     <li><a href="{{ url('/') }}"><i class="fas fa-home"></i> Beranda</a></li>
@@ -859,7 +859,7 @@
                     <li><a href="{{ url('/team') }}"><i class="fas fa-users"></i> Tim</a></li>
                 </ul>
             </nav>
-        </div>
+        </div> -->
 
         <!-- Page Title -->
         <div class="page-title">

@@ -602,7 +602,7 @@
                     <li><a href="{{ url('/') }}" class="{{ Request::is('/') ? 'active' : '' }}"><i class="fas fa-home"></i> Beranda</a></li>
                     <li><a href="{{ url('/about') }}" class="{{ Request::is('about') ? 'active' : '' }}"><i class="fas fa-info-circle"></i> Tentang</a></li>
                     <li><a href="{{ route('contact') }}" class="{{ Request::is('contact') ? 'active' : '' }}"><i class="fas fa-envelope"></i> Kontak</a></li>
-                    <li><a href="{{ url('/services') }}" class="{{ Request::is('services') ? 'active' : '' }}"><i class="fas fa-cog"></i> Layanan</a></li>
+                    <li><a href="{{ url('/service') }}" class="{{ Request::is('service') ? 'active' : '' }}"><i class="fas fa-cog"></i> Layanan</a></li>
                     <li><a href="{{ url('/portfolio') }}" class="{{ Request::is('portfolio') ? 'active' : '' }}"><i class="fas fa-briefcase"></i> Portofolio</a></li>
                     <li><a href="{{ url('/team') }}" class="{{ Request::is('team') ? 'active' : '' }}"><i class="fas fa-users"></i> Tim</a></li>
                 </ul>
