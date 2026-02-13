@@ -136,7 +136,7 @@
         @media (max-width: 480px) {
             body {
                 padding: 20px 10px;
-            }
+            } 
 
             .container {
                 padding: 20px 15px;
